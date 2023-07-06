@@ -38,6 +38,7 @@ def BlurFolder(folder_path):
         #     # add blurred face on original image to get final image
         #     image[y:y + roi.shape[0], x:x + roi.shape[1]] = roi
         # Display the output
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         cv2.imwrite(output_file+'/'+img_name, image)
 
 if __name__ == '__main__':
