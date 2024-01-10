@@ -21,10 +21,11 @@ def BlurFolder(folder_path):
 
         # Loop over all the detected faces in the image
         for (top, right, bottom, left) in face_locations:
+            blurring_size = 30
+            top, left, bottom, right = max(0, top - blurring_size), max(0, left - blurring_size), min(image.shape[0], bottom + blurring_size), min(image.shape[1], right + blurring_size)
             roi = image[top:bottom, left:right]
-
             # apply gaussian blur to face rectangle
-            roi = cv2.GaussianBlur(roi, (17, 17), 30)
+            roi = cv2.GaussianBlur(roi, (31, 31), 30)
 
             # add blurred face on original image to get final image
             image[top:top + roi.shape[0], left:left + roi.shape[1]] = roi
