@@ -2,7 +2,7 @@ import cv2
 import os
 import face_recognition
 
-def BlurFolder(folder_path):
+def BlurFolder(folder_path, blurring_size = 30):
     # output_file="./Data/blurred_"+folder_path.split("/")[-1]
     output_file=folder_path+"_blurred"
     if not os.path.exists(output_file):
@@ -21,7 +21,6 @@ def BlurFolder(folder_path):
 
         # Loop over all the detected faces in the image
         for (top, right, bottom, left) in face_locations:
-            blurring_size = 30
             top, left, bottom, right = max(0, top - blurring_size), max(0, left - blurring_size), min(image.shape[0], bottom + blurring_size), min(image.shape[1], right + blurring_size)
             roi = image[top:bottom, left:right]
             # apply gaussian blur to face rectangle
