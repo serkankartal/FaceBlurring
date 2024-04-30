@@ -2,7 +2,7 @@ import cv2
 import os
 import face_recognition
 
-def BlurFolder(folder_path, blurring_size = 30):
+def BlurFolder(folder_path, blurring_size = 50,make_facearea_green=0):
     # output_file="./Data/blurred_"+folder_path.split("/")[-1]
     output_file=folder_path+"_blurred"
     if not os.path.exists(output_file):
@@ -25,10 +25,15 @@ def BlurFolder(folder_path, blurring_size = 30):
             roi = image[top:bottom, left:right]
             # apply gaussian blur to face rectangle
             roi = cv2.GaussianBlur(roi, (31, 31), 30)
-
-            # add blurred face on original image to get final image
-            image[top:top + roi.shape[0], left:left + roi.shape[1]] = roi
-
+ 
+           if make_facearea_green==0:
+                roi = cv2.GaussianBlur(roi, (31, 31), 30)
+                # add blurred face on original image to get final image
+                image[top:top + roi.shape[0], left:left + roi.shape[1]] = roi
+            else:
+                # Fill the ROI area with green color
+                image[top:bottom, left:right] = (0, 255, 0)
+                
         # for (x, y, w, h) in faces:
         #     roi = image[y:y + h, x:x + w]
         #
@@ -42,4 +47,4 @@ def BlurFolder(folder_path, blurring_size = 30):
         cv2.imwrite(output_file+'/'+img_name, image)
 
 if __name__ == '__main__':
-    BlurFolder("./Data/images/")
+    BlurFolder("./Data/images",blurring_size=50,make_facearea_green=1)
